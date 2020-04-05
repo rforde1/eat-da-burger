@@ -1,35 +1,37 @@
-// Import express
-var express = require("express");
+const express = require("express");
 
-var router = express.Router();
-// Database
-var Burger = require("../models/burger.js");
-// Home route
-router.get("/", (req, res) => {
-  Burger.selectAll(data => {
-    var viewBurger = {burgers: data };
-    res.render("index", viewBurger);
+const app = express.Router();
+
+const burger = require("../models/burger");
+
+app.get("/", (req,res) =>{
+  burger.all(function(result){
+    const allBurgers = {
+      burgers : result
+    }
+    console.log(allBurgers)
+    res.render("index", allBurgers);
   });
 });
-// Insterting burger into table and database
-router.post("/burgers", (req, res) => {
-  Burger.insertOne(["burger_name"], [req.body.burger_name], data => {
+
+app.post("/burgers", (req, res) => {
+  burger.insertOne(["burger_name"], [req.body.burger_name], data => {
     res.redirect("/");
   });
 });
-// Update devoured burgers
-router.put("/burgers/:id", (req, res) => {
-  var condition = "id = " + req.params.id;
 
-  Burger.updateOne(
+app.put("/burgers/:id", (req, res) => {
+  var oneBurger = "id = " + req.params.id;
+
+  burger.updateOne(
     {
       devoured: true
     },
-    condition,
-    data => {res.redirect("/");}
+    oneBurger,
+    data => {
+      res.redirect("/");
+    }
   );
-
 });
 
-
-module.exports = router;
+module.exports = app;
