@@ -1,7 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 
-
 const PORT = process.env.JAWSDB_UR || 8080;
 
 const app = express();
