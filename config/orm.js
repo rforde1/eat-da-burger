@@ -7,51 +7,40 @@ let connection = require("../config/connection.js");
 // The above helper function loops through and creates an array of question marks - ["?", "?", "?"] - and turns it into a string.
 // ["?", "?", "?"].toString() => "?,?,?";
 function printQuestionMarks(num) {
-  let arr = [];
+  var arr = [];
 
-  for (let i = 0; i < num; i++) {
+  for (var i = 0; i < num; i++) {
     arr.push("?");
   }
 
   return arr.toString();
 }
 
-// Helper function to convert object key/value pairs to SQL syntax
 function objToSql(ob) {
-  let arr = [];
+  // column1=value, column2=value2,...
+  var arr = [];
 
-  // loop through the keys and push the key/value as a string int arr
-  for (let key in ob) {
-    let value = ob[key];
-    // check to skip hidden properties
-    if (Object.hasOwnProperty.call(ob, key)) {
-      // if string with spaces, add quotations (Lana Del Grey => 'Lana Del Grey')
-      if (typeof value === "string" && value.indexOf(" ") >= 0) {
-        value = "'" + value + "'";
-      }
-      // e.g. {name: 'Lana Del Grey'} => ["name='Lana Del Grey'"]
-      // e.g. {sleepy: true} => ["sleepy=true"]
-      arr.push(key + "=" + value);
-    }
+  for (var key in ob) {
+    arr.push(key + "=" + ob[key]);
   }
 
-  // translate array of strings to a single comma-separated string
   return arr.toString();
 }
 
-// Object for all our SQL statement functions.
-let orm = {
+var orm = {
   all: function(tableInput, cb) {
-    let queryString = "SELECT * FROM " + tableInput + ";";
-    connection.query(queryString, (err, result) => {
+    var queryString = "SELECT * FROM " + tableInput + ";";
+    connection.query(queryString, function(err, result) {
       if (err) {
         throw err;
       }
       cb(result);
     });
   },
+  // vals is an array of values that we want to save to cols
+  // cols are the columns we want to insert the values into
   create: function(table, cols, vals, cb) {
-    let queryString = "INSERT INTO " + table;
+    var queryString = "INSERT INTO " + table;
 
     queryString += " (";
     queryString += cols.toString();
@@ -62,17 +51,17 @@ let orm = {
 
     console.log(queryString);
 
-    connection.query(queryString, vals, (err, result) => {
+    connection.query(queryString, vals, function(err, result) {
       if (err) {
         throw err;
       }
-
       cb(result);
     });
   },
-  // An example of objColVals would be {name: panther, sleepy: true}
+  // objColVals would be the columns and values that you want to update
+  // an example of objColVals would be {name: panther, sleepy: true}
   update: function(table, objColVals, condition, cb) {
-    let queryString = "UPDATE " + table;
+    var queryString = "UPDATE " + table;
 
     queryString += " SET ";
     queryString += objToSql(objColVals);
@@ -80,15 +69,13 @@ let orm = {
     queryString += condition;
 
     console.log(queryString);
-    connection.query(queryString, (err, result) => {
+    connection.query(queryString, function(err, result) {
       if (err) {
         throw err;
       }
-
       cb(result);
     });
   }
 };
 
-// Export the orm object for the model (cat.js).
 module.exports = orm;

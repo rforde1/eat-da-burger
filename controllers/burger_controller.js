@@ -1,37 +1,31 @@
-const express = require("express");
+var express = require("express");
 
-const app = express.Router();
-
-const burger = require("../models/burger");
-
-app.get("/", (req,res) =>{
-  burger.all(function(result){
-    const allBurgers = {
-      burgers : result
-    }
-    console.log(allBurgers)
-    res.render("index", allBurgers);
+var app = express.Router();
+var burger = require("../models/burger.js");
+// CRUD
+// Route to index
+app.get("/", function(req, res) {
+  res.redirect("/burger");
+});
+// Get burger data
+app.get("/burger", function(req, res) {
+  burger.all(function(burg) {
+    res.render("index", { burger_data: burg });
   });
 });
 
-app.post("/burgers", (req, res) => {
-  burger.insertOne(["burger_name"], [req.body.burger_name], data => {
+// Post it to create
+app.post("/burger/new", function(req, res) {
+  burger.create(req.body.burger_name, function(result) {
+    console.log(result);
     res.redirect("/");
   });
 });
-
-app.put("/burgers/:id", (req, res) => {
-  var oneBurger = "id = " + req.params.id;
-
-  burger.updateOne(
-    {
-      devoured: true
-    },
-    oneBurger,
-    data => {
-      res.redirect("/");
-    }
-  );
+// Then 
+app.put("/burger/:id", function(req, res) {
+  burger.update(req.params.id, function(result) {
+    console.log(result);
+  });
 });
 
 module.exports = app;

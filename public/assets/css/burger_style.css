@@ -1,0 +1,51 @@
+body{
+    background-color:yellow;
+}
+
+h1{
+    color:brown;
+    font-size: 75px;
+}
+
+.bloc-logo {
+    position: relative;
+    width: 130px;
+    height: 49px;
+    float: left;
+}
+
+.bloc-logo canvas,
+.bloc-logo .logo-mask {
+    display: block;
+    width: 130px;
+    height: 49px;
+}
+
+.bloc-logo .logo-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-size: 130px;
+    background-image: url("../img/logo-mask.png");
+    text-indent: -9999px;
+}
+
+.burger-name{
+    background-color: yellow;
+    height:40px;
+    border-radius: 25px;
+}
+
+.devour-btn{
+    color: red;
+    background-color:yellow;
+    border-radius: 25px;
+}
+
+.to-devour{
+    background-color: burlywood;
+}
+
+.devoured-burger{
+    color: brown;
+}

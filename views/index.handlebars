@@ -1,0 +1,67 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <div>
+                <h1>Eat-Da-Burger!!!</h1>
+            </div>
+                
+            <img style="margin-bottom:100px;"
+                src="https://i.ya-webdesign.com/images/hamburger-svg-beef-burger-6.png"
+                alt="burger-img"/>
+        </div>
+
+        <div class="col-md-6 text-center to-devour">
+            <div class="row">
+                {{#each burger_data}}
+                {{#unless this.devoured}}
+                <div class="col-md-9 text-center">
+                    <div class="burger-name">{{this.id}}. {{this.burger_name}}
+                    </div>
+                </div>
+                <div class="col-md-3 text-center">
+                    <form class="devour button-size">
+                        <input class="burgerId" type="hidden"  type="text" value={{this.id}}>
+                        <button type="submit" class="btn btn-default btn-danger">Devour it!</button>
+                    </form>
+                </div>
+                {{/unless}}
+                {{/each}}
+            </div>
+        </div>
+        <div class="col-md-6 text-center" class="task">
+            {{#each burger_data}}
+            {{#if this.devoured}}
+            <input class="form-control devoured-burger" type="text" placeholder="{{this.id}} . {{this.burger_name}}" readonly>
+            {{/if}}
+            {{/each}}
+        </div>
+    </div>
+</div>
+
+      <div class="text-center">
+            <form action="/burger/new" method="POST">
+                <input type="text" class="form-control" name="burger_name" value="">
+                <button type="submit" class="btn btn-danger">Submit</button>
+            </form>
+        </div>
+    
+
+{{!-- <script>
+    var granimInstance = new Granim({
+    element: '#logo-canvas',
+    direction: 'left-right',
+    states : {
+        "default-state": {
+            gradients: [
+                ['#EB3349', '#F45C43'],
+                ['#FF8008', '#FFC837'],
+                ['#4CB8C4', '#3CD3AD'],
+                ['#24C6DC', '#514A9D'],
+                ['#FF512F', '#DD2476'],
+                ['#DA22FF', '#9733EE']
+            ],
+            transitionSpeed: 2000
+        }
+    }
+});
+</script> --}}
