@@ -1,23 +1,19 @@
 // Databases
 
   let mysql = require("mysql");
-//  Connection
-  var connection = mysql.createConnection({
+  var connection;
+
+  if (process.env.JAWSDB_URL) {
+    connection = mysql.createConnection(process.env.JAWSDB_URL);
+  } else {
+    connection = mysql.createConnection({
       port: 3306,
-      host: "pqxt96p7ysz6rn1f.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-      user: "yqpfsrgow17en3zq",
-      password: "gycj16ot7w9qh7oo",
-      database: "qv9ug5ojib8ee60o"
+    host: "localhost",
+    user: "root",
+    password: "password",
+    database: "burger_db"
     });
-  // } else {
-  //   connection = mysql.createConnection({
-  //     port: 3306,
-  //   host: "localhost",
-  //   user: "root",
-  //   password: "password",
-  //   database: "burger_db"
-  //   });
-  // }
+  }
 
 
 //Connection to host 
